@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package trainticket;
+
+option go_package = "github.com/ibreakthecloud/traintkt";
+
+service TicketService {
+  rpc PurchaseTicket (PurchaseTicketRequest) returns (Receipt) {}
+  rpc GetReceipt (GetReceiptRequest) returns (Receipt) {}
+  rpc ViewSeatAllocation (ViewSeatAllocationRequest) returns (SeatAllocationResponse) {}
+  rpc RemoveUser (RemoveUserRequest) returns (RemoveUserResponse) {}
+  rpc ModifySeat (ModifySeatRequest) returns (ModifySeatResponse) {}
+}
+
+message User {
+  string first_name = 1;
+  string last_name = 2;
+  string email = 3;
+}
+
+message PurchaseTicketRequest {
+  string from = 1;
+  string to = 2;
+  User user = 3;
+  double price = 4;
+}
+
+message Receipt {
+  string id = 1;
+  string from = 2;
+  string to = 3;
+  User user = 4;
+  double price = 5;
+  string seat = 6;
+}
+
+message GetReceiptRequest {
+  string id = 1;
+}
+
+message ViewSeatAllocationRequest {
+  string section = 1;
+}
+
+message SeatAllocationResponse {
+  repeated SeatAllocation allocations = 1;
+}
+
+message SeatAllocation {
+  string seat = 1;
+  User user = 2;
+}
+
+message RemoveUserRequest {
+  string id = 1;
+}
+
+message RemoveUserResponse {
+  bool success = 1;
+}
+
+message ModifySeatRequest {
+  string id = 1;
+  string new_seat = 2;
+}
+
+message ModifySeatResponse {
+  bool success = 1;
+  string new_seat = 2;
+}
